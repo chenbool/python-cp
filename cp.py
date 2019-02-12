@@ -62,7 +62,6 @@ class Train(object):
             'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
         print(data)
-        exit()
 
     # 获取内容
     def get_content(self, url):
