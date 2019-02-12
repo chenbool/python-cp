@@ -58,8 +58,8 @@ class Train(object):
             'opencode': ','.join(kaij_code),
             'expect_next': kaij_qs_next[0].strip(),
             'desc': kaij_desc[1].strip(),
-            'time': time.time(),
-            'date': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            'opentime': time.time(),
+            'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
         print(data)
         exit()

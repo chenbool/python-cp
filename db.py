@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# import records
+# pip install records mysqlclient
+import records
 import time
 import requests
 from lxml import html
@@ -10,9 +11,12 @@ import gevent
 
 class Train(object):
     baseUrl = 'https://kjh.55128.cn'
+    db = ''
     def __init__(self,):
         # 关闭https证书验证警告
         requests.packages.urllib3.disable_warnings()
+        # self.db = records.Database('mysql://root:root@localhost/db?charset=utf8')
+        self.db = records.Database('sqlite:///data.db')
 
     # 返回查询结果
     def run(self):
@@ -29,7 +33,7 @@ class Train(object):
         # 遍历
         for item in cp_list:
             # print(self.baseUrl+item)
-            # self.get_info(item)
+            #self.get_info(item)
             temp.append(gevent.spawn(self.get_info, item))
 
         # 开启协程
@@ -58,11 +62,18 @@ class Train(object):
             'opencode': ','.join(kaij_code),
             'expect_next': kaij_qs_next[0].strip(),
             'desc': kaij_desc[1].strip(),
-            'time': time.time(),
-            'date': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            'opentime': time.time(),
+            'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
-        print(data)
-        exit()
+        print(data
+        # 插入数据库
+        # INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('1', '1', NULL, '1', NULL, NULL, NULL);
+        sql = "INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
+            data['name'], data['expect'], data['opencode'], data['expect_next'], data['desc'], data['opentime'], data['opendate']
+        )
+        self.db.query(sql)
+        print(data['name']+':添加成功')
+
 
     # 获取内容
     def get_content(self, url):
