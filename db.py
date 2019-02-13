@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# pip install records mysqlclient
 import records
 import time
 import requests
@@ -15,8 +14,8 @@ class Train(object):
     def __init__(self,):
         # 关闭https证书验证警告
         requests.packages.urllib3.disable_warnings()
-        # self.db = records.Database('mysql://root:root@localhost/db?charset=utf8')
-        self.db = records.Database('sqlite:///data.db')
+        self.db = records.Database('mysql://root:root@localhost/db?charset=utf8')
+        # self.db = records.Database('sqlite:///data.db')
 
     # 返回查询结果
     def run(self):
@@ -33,7 +32,7 @@ class Train(object):
         # 遍历
         for item in cp_list:
             # print(self.baseUrl+item)
-            #self.get_info(item)
+            # self.get_info(item)
             temp.append(gevent.spawn(self.get_info, item))
 
         # 开启协程
@@ -65,7 +64,7 @@ class Train(object):
             'opentime': time.time(),
             'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
-        print(data
+        print(data)
         # 插入数据库
         # INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('1', '1', NULL, '1', NULL, NULL, NULL);
         sql = "INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
@@ -73,6 +72,7 @@ class Train(object):
         )
         self.db.query(sql)
         print(data['name']+':添加成功')
+        exit()
 
 
     # 获取内容
