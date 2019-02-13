@@ -81,6 +81,17 @@ class Train(object):
         proxies = {
             'http': 'http://183.148.148.81:9999',
             'http': 'http://121.61.2.56:9999',
+            'http': 'http://116.208.55.173:9999',
+            'http': 'http://115.151.5.177:9999',
+            'http': 'http://110.52.235.139:9999',
+            'http': 'http://112.85.165.66:9999',
+            'http': 'http://116.209.59.174:9999',
+            'http': 'http://121.61.1.9:9999',
+            'http': 'http://180.119.141.144:9999',
+            'http': 'http://116.209.54.168:9999',
+            'http': 'http://116.209.58.45:9999',
+            'http': 'http://125.123.142.215:9999',
+            'http': 'http://110.52.235.196:9999',
             # 'https': 'https://112.98.126.98:37614'
         }
         page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies)
