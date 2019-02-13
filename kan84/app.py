@@ -90,7 +90,8 @@ class App(object):
             'level': kan_level[0],
             'date': kan_time[0],
             'year': kan_year[0],
-            'alias': kan_alias[0],
+            'alias': kan_title[0],
+            # 'alias': kan_alias[0],
             'desc': kan_desc[0],
             'url': self.baseUrl+url
         }
