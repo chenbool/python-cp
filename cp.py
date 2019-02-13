@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# import records
+
+import gevent
+from gevent import monkey
+monkey.patch_all()
 import time
 import requests
 from lxml import html
-from gevent import monkey
-import gevent
-# gevent.monkey.patch_all()
 
 class Train(object):
     baseUrl = 'https://kjh.55128.cn'

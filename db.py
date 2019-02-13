@@ -1,16 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import gevent
+from gevent import monkey
+monkey.patch_all()
 import records
 import time
 import requests
 from lxml import html
-from gevent import monkey
-import gevent
-# gevent.monkey.patch_all()
 
 class Train(object):
     baseUrl = 'https://kjh.55128.cn'
     db = ''
+
     def __init__(self,):
         # 关闭https证书验证警告
         requests.packages.urllib3.disable_warnings()
@@ -64,16 +65,14 @@ class Train(object):
             'opentime': time.time(),
             'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
-        print(data)
+        # print(data)
         # 插入数据库
         # INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('1', '1', NULL, '1', NULL, NULL, NULL);
         sql = "INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
             data['name'], data['expect'], data['opencode'], data['expect_next'], data['desc'], data['opentime'], data['opendate']
         )
         self.db.query(sql)
-        print(data['name']+':添加成功')
-        exit()
-
+        print(data['name']+': 第'+data['expect']+'期  开奖号码: '+data['opencode']+'  -> 添加成功')
 
     # 获取内容
     def get_content(self, url):
@@ -94,14 +93,18 @@ class Train(object):
             'http': 'http://110.52.235.196:9999',
             # 'https': 'https://112.98.126.98:37614'
         }
-        page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies)
+        page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=5)
         # page = page.text.strip();
         tree = page.text.replace('\r\n', '')  # 替换成空格
         return html.fromstring(tree)
 
 def main():
+    start = time.time()
     train = Train()
     train.run()
+    # 计算执行时间
+    end = time.time()
+    print('执行时间: %f' %(end-start))
     
 if __name__ == "__main__":
     main()
