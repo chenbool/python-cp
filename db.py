@@ -82,7 +82,6 @@ class Train(object):
             'http': 'http://121.61.2.56:9999',
             'http': 'http://116.208.55.173:9999'
         }
-
         try:
             # timeout=([连接超时时间], [读取超时时间])
             page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 5))
