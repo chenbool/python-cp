@@ -36,12 +36,12 @@ class App(object):
         # 遍历页数
         for key in range(start, end):
             urls = '/vod/newscary' + str(key) + '.html'
-            self.get_page(urls)
-            # temp.append(gevent.spawn(self.get_page, urls))
+            # self.get_page(urls)
+            temp.append(gevent.spawn(self.get_page, urls))
             # print('第'+str(key)+'页-->采集完成')
 
         # 开启协程
-        # gevent.joinall(temp)
+        gevent.joinall(temp)
 
     # 获取页面的列表
     def get_page(self, url):
@@ -103,6 +103,7 @@ class App(object):
         # print(sql)
         rows = self.db.query(sql)
         # 检测是否存在
+        # if rows is None:
         if rows is None:
             # INSERT INTO `kan` (`logo`, `title`, `star`, `status`, `director`, `region`, `level`, `date`, `year`, `alias`, `desc`, `url`) VALUES ( '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
             sql = "INSERT INTO `kan` (`logo`, `title`, `star`, `status`, `director`, `region`, `level`, `date`, `year`, `alias`, `desc`, `url`) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
