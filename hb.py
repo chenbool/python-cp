@@ -75,6 +75,7 @@ class Train(object):
         proxies = {
             'http': 'http://183.148.148.81:9999',
             'http': 'http://121.61.2.56:9999',
+            # 'https': 'http://121.61.2.56:9999',
         }
         try:
             # 判断是否获取 json
