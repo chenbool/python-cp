@@ -85,7 +85,7 @@ class Train(object):
 
         try:
             # timeout=([连接超时时间], [读取超时时间])
-            page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 3))
+            page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 5))
             tree = page.text.replace('\r\n', '')  # 替换成空格
             return html.fromstring(tree)
         except requests.exceptions.HTTPError:
@@ -96,6 +96,10 @@ class Train(object):
             print('网址错误: ' + self.baseUrl + url)
         except requests.exceptions.ConnectTimeout:
             print('链接超时: '+self.baseUrl+url)
+        except requests.exceptions.InvalidHeader:
+            print('请求头异常: '+self.baseUrl+url)
+        except requests.exceptions.UnrewindableBodyError:
+            print('页面异常: '+self.baseUrl+url)
         except requests.exceptions.ChunkedEncodingError:
             print('编码异常: '+self.baseUrl+url)
         except:
