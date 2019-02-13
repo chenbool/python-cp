@@ -67,13 +67,22 @@ class Train(object):
             'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
         # print(data)
-        # 插入数据库
-        # INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('1', '1', NULL, '1', NULL, NULL, NULL);
-        sql = "INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
-            data['name'], data['expect'], data['opencode'], data['expect_next'], data['desc'], data['opentime'], data['opendate']
-        )
-        self.db.query(sql)
-        print(data['name']+': 第'+data['expect']+'期  开奖号码: '+data['opencode']+'  -> 添加成功')
+        self.insert_db(data)
+
+    # 插入数据库
+    def insert_db(self, data):
+        sql = "SELECT * FROM `data` WHERE `name` = '%s'  AND expect = %s " %(data['name'],data['expect'])
+        rows = self.db.query(sql)
+        # 检测是否存在
+        if rows is None:
+            sql = "INSERT INTO `data` (`name`, `expect`, `opencode`, `expect_next`, `desc`, `opentime`, `opendate`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
+                data['name'], data['expect'], data['opencode'], data['expect_next'], data['desc'], data['opentime'], data['opendate']
+            )
+            self.db.query(sql)
+            print(data['name']+': 第'+data['expect']+'期  开奖号码: '+data['opencode']+'  -> 添加成功')
+        else:
+            print(data['name'] + ': 第' + data['expect'] + '期  开奖号码: ' + data['opencode'] + '  -> 已经存在')
+
 
     # 获取内容
     def get_content(self, url):
@@ -99,8 +108,6 @@ class Train(object):
             print('请求头异常: '+self.baseUrl+url)
         except requests.exceptions.UnrewindableBodyError:
             print('页面异常: '+self.baseUrl+url)
-        except requests.exceptions.ChunkedEncodingError:
-            print('编码异常: '+self.baseUrl+url)
         except:
             print('运行异常: '+self.baseUrl+url)
 
