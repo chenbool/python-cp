@@ -106,8 +106,10 @@ class Train(object):
 
 def main():
     start = time.time()
+
     train = Train()
     train.run()
+
     # 计算执行时间
     end = time.time()
     print('执行时间: %f 秒' %(end-start))

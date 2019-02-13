@@ -61,7 +61,8 @@ class Train(object):
             'opentime': time.time(),
             'opendate': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         }
-        print(data)
+        # print(data)
+        print(data['name'] + ': 第' + data['expect'] + '期  开奖号码: ' + data['opencode'])
 
     # 获取内容
     def get_content(self, url):
@@ -71,14 +72,37 @@ class Train(object):
             'http': 'http://121.61.2.56:9999',
             # 'https': 'https://112.98.126.98:37614'
         }
-        page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies)
-        # page = page.text.strip();
-        tree = page.text.replace('\r\n', '')  # 替换成空格
-        return html.fromstring(tree)
+        try:
+            # timeout=([连接超时时间], [读取超时时间])
+            page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 5))
+            tree = page.text.replace('\r\n', '')  # 替换成空格
+            return html.fromstring(tree)
+        except requests.exceptions.HTTPError:
+            print('状态异常: ' + self.baseUrl + url)
+        except requests.exceptions.ConnectionError:
+            print('连接异常: '+self.baseUrl+url)
+        except requests.exceptions.InvalidURL:
+            print('网址错误: ' + self.baseUrl + url)
+        except requests.exceptions.ConnectTimeout:
+            print('链接超时: '+self.baseUrl+url)
+        except requests.exceptions.InvalidHeader:
+            print('请求头异常: '+self.baseUrl+url)
+        except requests.exceptions.UnrewindableBodyError:
+            print('页面异常: '+self.baseUrl+url)
+        except requests.exceptions.ChunkedEncodingError:
+            print('编码异常: '+self.baseUrl+url)
+        except:
+            print('运行异常: '+self.baseUrl+url)
 
 def main():
+    start = time.time()
+
     train = Train()
     train.run()
+
+    # 计算执行时间
+    end = time.time()
+    print('执行时间: %f 秒' %(end-start))
     
 if __name__ == "__main__":
     main()
