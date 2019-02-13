@@ -1,5 +1,8 @@
 # python-cp
 
+# mysqlclient
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient
+
 # import dataset
 
 pip install -r requriements.txt
