@@ -33,24 +33,32 @@ class Train(object):
     # 获取详情页
     def get_info(self, data):
         tree = self.get_content('/currencies/'+data['code'])
-        # 当前价格
-        hb_current = tree.xpath('//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/span/span/text()')
-        # 当前汇率
-        hb_diff = tree.xpath( '//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[3]/span[1]/text()')
-        # 最高
-        hb_high = tree.xpath('//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[4]/div[1]/span/text()')
-        # 最低
-        hb_low = tree.xpath('//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[4]/div[2]/span/text()')
+        try:
+            # 当前价格
+            hb_current = tree.xpath(
+                '//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/span/span/text()')
+            # 当前汇率
+            hb_diff = tree.xpath(
+                '//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[3]/span[1]/text()')
+            # 最高
+            hb_high = tree.xpath(
+                '//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[4]/div[1]/span/text()')
+            # 最低
+            hb_low = tree.xpath(
+                '//*[@id="__layout"]/section/div/div/div[1]/div[1]/div[2]/div[1]/div[4]/div[2]/span/text()')
 
-        # 存入到dict
-        data['current'] = hb_current[0].strip()
-        data['diff'] = hb_diff[0].replace('+', '')
-        data['high'] = hb_high[0].replace('¥', '')
-        data['low'] = hb_low[0].replace('¥', '')
-        data['opentime'] = time.time()
-        data['opendate'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        # print(data)
-        self.insert_db(data)
+            # 存入到dict
+            data['current'] = hb_current[0].strip()
+            data['diff'] = hb_diff[0].replace('+', '')
+            data['high'] = hb_high[0].replace('¥', '')
+            data['low'] = hb_low[0].replace('¥', '')
+            data['opentime'] = time.time()
+            data['opendate'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            # print(data)
+            self.insert_db(data)
+        except:
+            print('采集异常: /currencies/'+data['code'])
+
 
     # 插入数据库
     def insert_db(self, data):
@@ -75,7 +83,7 @@ class Train(object):
                 page = requests.get(url, headers=headers, proxies=proxies, timeout=(10, 5))
                 return page.json()
             else:
-                page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 5))
+                page = requests.get(self.baseUrl+url, headers=headers, proxies=proxies, timeout=(10, 8))
                 tree = page.text.replace('\r\n', '')  # 替换成空格
                 # print(tree)
                 return html.fromstring(tree)
