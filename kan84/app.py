@@ -105,7 +105,8 @@ class App(object):
         rows = self.db.query(sql)
         # 检测是否存在
         # if rows is None:
-        if rows is None:
+        print(len(rows) < 1)
+        if len(rows) < 1:
             # INSERT INTO `kan` (`logo`, `title`, `star`, `status`, `director`, `region`, `level`, `date`, `year`, `alias`, `desc`, `url`) VALUES ( '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2');
             sql = "INSERT INTO `kan` (`logo`, `title`, `star`, `status`, `director`, `region`, `level`, `date`, `year`, `alias`, `desc`, `url`) VALUES ( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')" %(
                 data['logo'], data['title'], data['star'], data['status'], data['director'], data['region'], data['level'], data['date'], data['year'], data['alias'], data['desc'], data['url']
