@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e4d60d8f-a471-4f3c-a940-bba63268e295" name="默认的" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kan84/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/kan84/app.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -228,7 +229,7 @@
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.3292683" />
       <window_info anchor="bottom" id="Terminal" order="12" weight="0.3604336" />
-      <window_info active="true" anchor="bottom" id="运行" order="7" visible="true" weight="0.4498645" />
+      <window_info anchor="bottom" id="运行" order="7" weight="0.4498645" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13896848" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" />
