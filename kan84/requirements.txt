@@ -1,0 +1,4 @@
+gevent==1.4.0
+lxml==4.2.1
+requests==2.18.4
+records==0.5.2
