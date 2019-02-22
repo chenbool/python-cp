@@ -38,7 +38,8 @@ class App(object):
         self.db = dataset.connect('mysql://root:root@127.0.0.1/mh?charset=utf8')
 
     def run(self):
-        response = self.get_content('/manhua-list-s2/')
+        response = self.get_content('/manhua-list/')
+        # response = self.get_content('/manhua-list-s2/')
         # self.__w('index', response.text)
         self.cookie = response.cookies
         soup = BeautifulSoup(response.text, features="lxml")
