@@ -139,6 +139,8 @@ class App(object):
             else:
                 print("此漫画缺少部分章节")
 
+        print(data)
+
         # 遍历章节
         for item in m_list:
             self.get_chapter(item, cookie, dir_name, id)
@@ -163,10 +165,15 @@ class App(object):
             "title": m_title,
             "url": chapter.get("href"),
             "size": page_size,
-            "chapter": re.findall("\d{1,}", m_title)[0],
             # "date": m_date,
         }
-        item["dir"] = dir_name+item["chapter"]
+        item["chapter"] = re.findall("\d{1,}", m_title)
+        if len(item["chapter"]) > 0:
+            item["chapter"] = int(item["chapter"][0])
+        else:
+            print(item["url"])
+
+        item["dir"] = dir_name+str(item["chapter"])
         item["cid"] = item["url"].split('-')[-1][:-1]
 
         # 操作数据库
@@ -204,7 +211,7 @@ class App(object):
                     exit()
 
                 # 检测目录是否存在
-                path = dir_name+item["chapter"]
+                path = dir_name+str(item["chapter"])
                 # 检测此章节是否下载所有页数
                 if os.path.exists(path) == False:
                     os.mkdir(path)
