@@ -1,2 +1,4 @@
+PyExecJS==1.5.1
 requests==2.18.4
+dataset==1.1.2
 beautifulsoup4==4.7.1
