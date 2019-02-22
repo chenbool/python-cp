@@ -73,7 +73,13 @@ class App(object):
 
         # chapter
         m_chapter = m_detali.find("p", {'class': 'chapter'}).find("a")
-        m_last_title = re.findall("\d{1,}", m_chapter.get_text())[0]
+
+        m_last_title = re.findall("\d{1,}", m_chapter.get_text())
+        if len(m_last_title) > 0:
+            m_last_title = m_last_title[0]
+        else:
+            m_last_title = 0
+
         m_last_url = m_chapter.get("href")
         m_desc = m_detali.find("div", {'class': 'desc'}).get_text().strip()
 
@@ -108,6 +114,7 @@ class App(object):
         m_list = soup.find("div", {'id': 'chapterlistload'}).find_all("li")
         dir_name = self.baseDir+re.findall("\d{1,}", data['url'])[0]+"/"
         data["count"] = len(m_list)
+        data["last_title"] = len(m_list)
 
         # 操作数据库
         table = self.db['m_data']
@@ -146,6 +153,7 @@ class App(object):
         if len(page_size) > 0:
             page_size = page_size[0]
         else:
+            page_size = 10
             return
         # m_date = re.findall("\d{4}-\d{2}-\d{2}", m_title)[0]
         # m_title = m_title.replace(m_date, "").strip()
