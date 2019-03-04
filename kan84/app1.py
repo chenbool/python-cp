@@ -31,7 +31,7 @@ class App(object):
         # 获取页面列表
         self.get_page_list(url)
 
-        start_page = 20
+        # start_page = 20
 
         # 遍历页数
         for key in range(start_page, end_page):
